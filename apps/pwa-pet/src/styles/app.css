@@ -1,0 +1,206 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  background: #1a1628;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #f0eaff;
+  overflow-x: hidden;
+}
+
+/* ── App shell ── */
+.app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: env(safe-area-inset-top, 16px) 16px env(safe-area-inset-bottom, 24px);
+  gap: 20px;
+}
+
+/* ── Header ── */
+.app-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 12px;
+}
+
+.app-title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, #C07820, #A99EE0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.app-sub {
+  font-size: 12px;
+  color: #8a80aa;
+  margin-top: 2px;
+}
+
+/* ── Pets row ── */
+.pets-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ── Pet card ── */
+.pet-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 20px;
+  padding: 14px 10px 12px;
+  cursor: pointer;
+  transition: transform 0.15s, background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.pet-card:active { transform: scale(0.96); background: rgba(255,255,255,0.08); }
+
+.wolf-card { border: 1px solid rgba(192,120,32,0.35); }
+.owl-card  { border: 1px solid rgba(169,158,224,0.35); }
+
+/* ── Speech bubble ── */
+.pet-bubble {
+  font-size: 11px;
+  line-height: 1.5;
+  text-align: center;
+  border-radius: 10px;
+  padding: 7px 10px;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.wolf-bubble {
+  background: rgba(192,120,32,0.12);
+  border: 1px solid rgba(192,120,32,0.3);
+  color: #f5e8c8;
+}
+
+.owl-bubble {
+  background: rgba(169,158,224,0.12);
+  border: 1px solid rgba(169,158,224,0.3);
+  color: #e8e0ff;
+}
+
+/* ── Pet figure ── */
+.pet-figure {
+  width: 110px;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pet-figure svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Animations ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-7px); }
+}
+
+.pet-figure { animation: float 4s ease-in-out infinite; }
+.owl-card .pet-figure  { animation-duration: 5s; }
+.wolf-card .pet-figure { animation-duration: 3.2s; }
+
+/* ── Labels ── */
+.pet-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.wolf-label { color: #C07820; }
+.owl-label  { color: #A99EE0; }
+
+.pet-hint {
+  font-size: 9px;
+  color: #4a4060;
+  letter-spacing: 0.06em;
+}
+
+/* ── Wolf info panel ── */
+.wolf-info-panel {
+  background: rgba(20,18,30,0.7);
+  border: 1px solid rgba(192,120,32,0.3);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.wolf-info-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #C07820;
+  letter-spacing: 0.06em;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.wolf-info-body {
+  font-size: 11px;
+  color: #a098c0;
+  line-height: 1.6;
+}
+
+/* ── Hourly pause overlay ── */
+.pause-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,8,20,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  backdrop-filter: blur(6px);
+  animation: fadeIn 0.4s ease;
+}
+
+.pause-card {
+  background: rgba(255,255,255,0.95);
+  border-radius: 22px;
+  padding: 32px 28px;
+  max-width: 300px;
+  width: 88%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.pause-icon {
+  font-size: 44px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.pause-message {
+  font-size: 17px;
+  color: #2d1f5e;
+  line-height: 1.7;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.pause-dismiss {
+  font-size: 11px;
+  color: #999;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

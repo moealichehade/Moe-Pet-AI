@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "name": "moe-pet-ai",
+  "builds": [
+    {
+      "src": "apps/pwa-pet/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "apps/pwa-pet/dist"
+      }
+    }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
