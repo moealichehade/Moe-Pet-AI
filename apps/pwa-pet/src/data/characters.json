@@ -1,0 +1,102 @@
+{
+  "wolf": {
+    "name": "Wolf",
+    "color": "#C07820",
+    "accent": "#E8A44A",
+    "bg": "rgba(192,120,32,0.10)",
+    "border": "rgba(192,120,32,0.30)",
+    "trait": "Focus & Action",
+    "pauses": [
+      "Lock in. One breath. The work continues after this moment.",
+      "Discipline is showing up even when you pause. You are here.",
+      "Thirty seconds. Eyes closed. Then back to it.",
+      "The strongest move right now is to stop for one breath.",
+      "Your focus is an asset. Guard it with a pause.",
+      "Reset. You are not behind. You are recalibrating.",
+      "One slow exhale. Then step back in with full intent.",
+      "Pause is not weakness. It is strategy.",
+      "Check your energy. Adjust. Continue.",
+      "You cannot run on empty. Take ten seconds right now."
+    ]
+  },
+  "owl": {
+    "name": "Owl",
+    "color": "#7B5CC4",
+    "accent": "#A99EE0",
+    "bg": "rgba(123,92,196,0.10)",
+    "border": "rgba(123,92,196,0.30)",
+    "trait": "Reflection & Calm",
+    "pauses": [
+      "Observe without judgment. That is enough for this moment.",
+      "Stillness is not emptiness. It is presence.",
+      "Wisdom comes to those who pause and watch.",
+      "Notice what you notice. That is mindfulness.",
+      "Breathe slowly. The answer will come when you are still.",
+      "Even owls rest between flights. So can you.",
+      "What are you carrying right now that you could set down?",
+      "One breath. In through the nose. Out through the mouth.",
+      "The quiet moment holds the most meaning.",
+      "Patience is not passive. It is powerful."
+    ]
+  },
+  "cat": {
+    "name": "Cat",
+    "color": "#E05A8A",
+    "accent": "#F0A0C0",
+    "bg": "rgba(224,90,138,0.10)",
+    "border": "rgba(224,90,138,0.30)",
+    "trait": "Curiosity & Play",
+    "pauses": [
+      "Stretch it out. Arms up. Breathe deep. You earned this.",
+      "Curiosity needs rest too. What delights you right now?",
+      "A small wonder a day keeps the dullness away. Find one.",
+      "Soft eyes. Soft jaw. Soft shoulders. There you go.",
+      "Play is not wasted time. It is how you recharge.",
+      "What would feel good in your body right now?",
+      "Look at something far away for thirty seconds. Rest your eyes.",
+      "You are allowed to enjoy this pause. No guilt.",
+      "Wiggle your fingers. Roll your neck. You are a whole body.",
+      "Notice one beautiful thing right where you are."
+    ]
+  },
+  "dog": {
+    "name": "Dog",
+    "color": "#4A9E6A",
+    "accent": "#80C896",
+    "bg": "rgba(74,158,106,0.10)",
+    "border": "rgba(74,158,106,0.30)",
+    "trait": "Loyalty & Warmth",
+    "pauses": [
+      "You showed up today. That counts. Take a breath.",
+      "Someone out there is grateful you exist. Believe it.",
+      "You have been working hard. This pause is yours. Take it.",
+      "Hydration check. Have you had water recently?",
+      "You are doing better than you think. Truly.",
+      "Tiny steps still count. Every one of them.",
+      "Be kind to yourself right now. You deserve it.",
+      "Take a moment. Think of one person you appreciate.",
+      "Rest is part of the work. You are not slacking.",
+      "You are enough. Right now. As you are."
+    ]
+  },
+  "panda": {
+    "name": "Panda",
+    "color": "#3A7ABF",
+    "accent": "#7AB0E0",
+    "bg": "rgba(58,122,191,0.10)",
+    "border": "rgba(58,122,191,0.30)",
+    "trait": "Balance & Ease",
+    "pauses": [
+      "Balance is not found. It is practiced. Right now, practice.",
+      "Slow is smooth. Smooth is fast. Breathe slow.",
+      "You do not need to do everything today.",
+      "Ground yourself. Both feet on the floor. Feel that.",
+      "What is the one thing that truly matters in the next hour?",
+      "Less pressure. More presence. Try it for sixty seconds.",
+      "You are allowed to move at your own pace.",
+      "Ease is not laziness. It is sustainable energy.",
+      "Name three things you can see right now. Anchor here.",
+      "The world will wait. Your breath will not. Take it now."
+    ]
+  }
+}
