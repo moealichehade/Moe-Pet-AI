@@ -1,19 +1,16 @@
 import { useState, useEffect, type FC } from 'react';
 
-const idlePrompts = [
-  "You've been away. How are you feeling right now?",
-  "One breath before you return. In… and out.",
-  "Welcome back. What matters most in the next hour?",
-  "Rest noticed. Take a moment to ground yourself.",
-  "Notice your body. Shoulders down. Jaw soft. Ready.",
-];
-
-const preEventPrompts = [
-  "Something is coming. One breath first.",
-  "How do you want to show up in this next moment?",
-  "Settle your mind before you step in.",
-  "You are prepared. Trust what you know.",
-  "Presence is your greatest tool right now.",
+const pauseMessages = [
+  "One hour in. Take a breath. You are doing well.",
+  "Pause. Shoulders down. Jaw soft. One slow breath.",
+  "An hour has passed. How are you feeling right now?",
+  "Step back for one moment. Notice what you notice.",
+  "Before the next hour begins — one breath. That is enough.",
+  "Your mind has been working hard. Give it ten seconds.",
+  "Check in with your body. Tight anywhere? Breathe into it.",
+  "One mindful pause. In through the nose. Out through the mouth.",
+  "You showed up. That matters. Take a quiet moment.",
+  "The hour is done. What do you need right now?",
 ];
 
 function randomFrom(arr: string[]) {
@@ -21,31 +18,60 @@ function randomFrom(arr: string[]) {
 }
 
 const OwlPrompt: FC = () => {
-  const [prompt, setPrompt] = useState<string | null>(null);
-  const [visible, setVisible] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [visible, setVisible]  = useState(false);
 
+  useEffect(() => {
+    // Fire once after 1 hour, then every hour
+    const ONE_HOUR = 60 * 60 * 1000;
+
+    function showPause() {
+      setMessage(randomFrom(pauseMessages));
+      setVisible(true);
+      // Auto-dismiss after 20 seconds
+      setTimeout(() => setVisible(false), 20000);
+    }
+
+    // First pause after 1 hour
+    const first = setTimeout(() => {
+      showPause();
+      // Then repeat every hour
+      const interval = setInterval(showPause, ONE_HOUR);
+      return () => clearInterval(interval);
+    }, ONE_HOUR);
+
+    return () => clearTimeout(first);
+  }, []);
+
+  // Also listen for main-process signals
   useEffect(() => {
     if (!window.moePetAPI) return;
 
-    window.moePetAPI.onIdleNotify(() => {
-      setPrompt(randomFrom(idlePrompts));
+    window.moePetAPI.onHourlyPause?.(() => {
+      setMessage(randomFrom(pauseMessages));
+      setVisible(true);
+      setTimeout(() => setVisible(false), 20000);
+    });
+
+    window.moePetAPI.onIdleNotify?.(() => {
+      setMessage("You have been away. Welcome back. One breath before you continue.");
+      setVisible(true);
+      setTimeout(() => setVisible(false), 15000);
+    });
+
+    window.moePetAPI.onPreEventNotify?.(() => {
+      setMessage("Something is coming up. Settle your mind before you step in.");
       setVisible(true);
       setTimeout(() => setVisible(false), 12000);
     });
-
-    window.moePetAPI.onPreEventNotify(() => {
-      setPrompt(randomFrom(preEventPrompts));
-      setVisible(true);
-      setTimeout(() => setVisible(false), 10000);
-    });
   }, []);
 
-  if (!visible || !prompt) return null;
+  if (!visible || !message) return null;
 
   return (
     <div className="owl-prompt" onClick={() => setVisible(false)}>
       <span className="owl-prompt-icon">🦉</span>
-      <p>{prompt}</p>
+      <p>{message}</p>
       <small>tap to dismiss</small>
     </div>
   );

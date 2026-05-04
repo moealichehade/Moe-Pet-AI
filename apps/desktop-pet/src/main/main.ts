@@ -92,6 +92,14 @@ function startNotificationLoop() {
   }, 5 * 60 * 1000);
 }
 
+// ── Hourly Owl pause ──────────────────────────────────────────────────────
+function startHourlyPause() {
+  const ONE_HOUR = 60 * 60 * 1000;
+  setInterval(() => {
+    win?.webContents.send('notify:hourly-pause');
+  }, ONE_HOUR);
+}
+
 // ── Idle detection ────────────────────────────────────────────────────────
 function startIdleDetection() {
   setInterval(() => {
@@ -107,6 +115,7 @@ app.whenReady().then(() => {
   createWindow();
   startNotificationLoop();
   startIdleDetection();
+  startHourlyPause();
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });

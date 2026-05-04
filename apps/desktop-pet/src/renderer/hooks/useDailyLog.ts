@@ -17,6 +17,7 @@ declare global {
       onScheduleUpdate: (cb: (p: import('../../../shared/types').SchedulePayload) => void) => void;
       onPreEventNotify: (cb: (e: import('../../../shared/types').CalendarEvent) => void) => void;
       onIdleNotify:     (cb: (secs: number) => void) => void;
+      onHourlyPause:    (cb: () => void) => void;
       fetchLog:         () => Promise<DailyLogPayload>;
       completeTask:     (title: string) => Promise<void>;
       attendEvent:      (title: string) => Promise<void>;

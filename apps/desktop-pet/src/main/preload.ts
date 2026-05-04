@@ -15,6 +15,9 @@ contextBridge.exposeInMainWorld('moePetAPI', {
   onIdleNotify: (cb: (secs: number) => void) =>
     ipcRenderer.on('notify:idle', (_e, s) => cb(s)),
 
+  onHourlyPause: (cb: () => void) =>
+    ipcRenderer.on('notify:hourly-pause', () => cb()),
+
   // ── Daily log ───────────────────────────────────────────────────────────
   fetchLog: (): Promise<DailyLogPayload> =>
     ipcRenderer.invoke('log:fetch'),
