@@ -1,0 +1,333 @@
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ── Stage ── */
+.stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* ── Pet wrapper ── */
+.pet-wrapper {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: all;
+  user-select: none;
+}
+
+/* ── Speech bubble ── */
+.speech-bubble {
+  background: rgba(255, 255, 255, 0.92);
+  border: 2px solid #ccc;
+  border-radius: 14px;
+  padding: 8px 12px;
+  max-width: 180px;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+  color: #2d2d3e;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  position: relative;
+  backdrop-filter: blur(4px);
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(255,255,255,0.92);
+}
+
+/* ── Pet button ── */
+.pet-body {
+  background: transparent;
+  border: none;
+  cursor: grab;
+  padding: 0;
+  line-height: 0;
+  border-radius: 50%;
+  transition: transform 0.15s ease;
+}
+
+.pet-body:active { cursor: grabbing; }
+.pet-body:hover  { transform: scale(1.06); }
+
+/* ── Name tag ── */
+.pet-name {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+/* ── Idle float animation ── */
+@keyframes float {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.pet-body {
+  animation: float 3.6s ease-in-out infinite;
+}
+
+/* ── Mood variants ── */
+.pet-mood-happy  { animation-duration: 3.6s; }
+.pet-mood-sleepy { animation-duration: 6s;   }
+.pet-mood-curious { animation-duration: 2.2s; }
+
+/* ── Click pulse ── */
+@keyframes pulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.14); }
+  100% { transform: scale(1); }
+}
+
+.pet-body:active {
+  animation: pulse 0.3s ease forwards;
+}
+
+/* ── Wolf schedule panel ─────────────────────────────────────────────────── */
+.wolf-panel-anchor {
+  position: absolute;
+  pointer-events: all;
+}
+
+.wolf-panel {
+  background: rgba(20, 18, 30, 0.88);
+  border: 1px solid #C07820;
+  border-radius: 12px;
+  padding: 10px 14px;
+  min-width: 210px;
+  max-width: 240px;
+  color: #f0e8d0;
+  font-size: 11px;
+  line-height: 1.6;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+}
+
+.wolf-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #C07820;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.wolf-event {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wolf-urgency {
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.wolf-title {
+  font-size: 11px;
+  color: #f5e8c8;
+}
+
+.wolf-tasks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.wolf-tasks li {
+  color: #d4c8a8;
+  padding: 1px 0;
+}
+
+.wolf-section {
+  margin-bottom: 8px;
+}
+
+.wolf-section:last-of-type {
+  margin-bottom: 0;
+}
+
+.wolf-empty {
+  color: #888;
+  font-style: italic;
+}
+
+.wolf-loading {
+  color: #aaa;
+  font-style: italic;
+}
+
+.wolf-denied {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #ff9966;
+}
+
+.wolf-mock-badge {
+  margin-top: 6px;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: #666;
+  text-align: right;
+}
+
+/* ── Owl prompt overlay ──────────────────────────────────────────────────── */
+.owl-prompt {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.94);
+  border: 2px solid #A99EE0;
+  border-radius: 18px;
+  padding: 20px 28px;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(100, 80, 180, 0.25);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  z-index: 999;
+  animation: fadeIn 0.4s ease;
+  pointer-events: all;
+}
+
+.owl-prompt-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.owl-prompt p {
+  font-size: 14px;
+  color: #2d1f5e;
+  line-height: 1.7;
+  margin: 0 0 8px;
+}
+
+.owl-prompt small {
+  font-size: 10px;
+  color: #999;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -46%); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+/* ── Owl daily log panel ─────────────────────────────────────────────────── */
+.owl-log-anchor {
+  position: absolute;
+  pointer-events: all;
+}
+
+.owl-log-panel {
+  min-width: 200px;
+  max-width: 230px;
+}
+
+.owl-log-toggle {
+  background: rgba(169, 158, 224, 0.18);
+  border: 1px solid #A99EE0;
+  border-radius: 8px;
+  color: #A99EE0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.owl-log-toggle:hover {
+  background: rgba(169, 158, 224, 0.3);
+}
+
+.owl-log-body {
+  background: rgba(20, 16, 40, 0.88);
+  border: 1px solid #A99EE0;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  padding: 10px 12px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 16px rgba(80,60,160,0.2);
+}
+
+.owl-log-stats {
+  display: flex;
+  gap: 8px;
+  font-size: 10px;
+  color: #c8c0e8;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.owl-log-reflections {
+  margin-bottom: 8px;
+}
+
+.owl-log-reflection-item {
+  font-size: 10px;
+  color: #b0a8d8;
+  font-style: italic;
+  line-height: 1.5;
+  margin: 2px 0;
+}
+
+.owl-log-input-row {
+  display: flex;
+  gap: 6px;
+}
+
+.owl-log-input {
+  flex: 1;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid #6a5fa8;
+  border-radius: 6px;
+  color: #e8e0ff;
+  font-size: 11px;
+  padding: 4px 8px;
+  outline: none;
+}
+
+.owl-log-input::placeholder { color: #6a5fa8; }
+.owl-log-input:focus { border-color: #A99EE0; }
+
+.owl-log-submit {
+  background: #A99EE0;
+  border: none;
+  border-radius: 6px;
+  color: #1a1030;
+  font-size: 14px;
+  font-weight: 700;
+  width: 26px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.owl-log-submit:hover { background: #c4b9f0; }
