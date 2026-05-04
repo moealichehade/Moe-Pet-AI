@@ -16,43 +16,62 @@ html, body, #root {
   height: 100vh;
   background: transparent;
   pointer-events: none;
+  border-radius: 14px;
 }
 
 /* ── Pet wrapper ── */
 .pet-wrapper {
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
   pointer-events: all;
   user-select: none;
 }
 
+.pet-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.pet-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
 /* ── Speech bubble ── */
 .speech-bubble {
-  background: rgba(255, 255, 255, 0.92);
-  border: 2px solid #ccc;
-  border-radius: 14px;
-  padding: 8px 12px;
-  max-width: 180px;
-  font-size: 12px;
-  line-height: 1.5;
-  text-align: center;
+  background: rgba(255, 255, 255, 0.93);
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  padding: 5px 7px;
+  max-width: 110px;
+  font-size: 10px;
+  line-height: 1.4;
+  text-align: left;
   color: #2d2d3e;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   position: relative;
-  backdrop-filter: blur(4px);
+  margin-top: 8px;
+}
+
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 10px;
+  border: 4px solid transparent;
+  border-right-color: rgba(255,255,255,0.93);
 }
 
 .speech-bubble::after {
   content: '';
   position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 5px solid transparent;
-  border-top-color: rgba(255,255,255,0.92);
+  left: -6px;
+  top: 11px;
+  border: 3px solid transparent;
+  border-right-color: #ccc;
 }
 
 /* ── Pet button ── */
@@ -114,13 +133,13 @@ html, body, #root {
 .wolf-panel {
   background: rgba(20, 18, 30, 0.88);
   border: 1px solid #C07820;
-  border-radius: 12px;
-  padding: 10px 14px;
-  min-width: 210px;
-  max-width: 240px;
+  border-radius: 10px;
+  padding: 7px 10px;
+  min-width: 180px;
+  max-width: 205px;
   color: #f0e8d0;
-  font-size: 11px;
-  line-height: 1.6;
+  font-size: 10px;
+  line-height: 1.5;
   backdrop-filter: blur(6px);
   box-shadow: 0 4px 18px rgba(0,0,0,0.35);
 }
@@ -245,8 +264,8 @@ html, body, #root {
 }
 
 .owl-log-panel {
-  min-width: 200px;
-  max-width: 230px;
+  min-width: 180px;
+  max-width: 205px;
 }
 
 .owl-log-toggle {
@@ -331,3 +350,85 @@ html, body, #root {
 }
 
 .owl-log-submit:hover { background: #c4b9f0; }
+
+/* ── Wolf panel extras ───────────────────────────────────────────────────── */
+.wolf-tasks-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.wolf-toggle-btn {
+  background: rgba(192,120,32,0.18);
+  border: 1px solid #C07820;
+  border-radius: 5px;
+  color: #C07820;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.wolf-toggle-btn:hover { background: rgba(192,120,32,0.35); }
+
+.wolf-task-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 3px 0;
+  border-bottom: 0.5px solid rgba(255,255,255,0.05);
+}
+
+.wolf-task-title {
+  font-size: 11px;
+  color: #f0e8d0;
+  line-height: 1.4;
+}
+
+.wolf-list-badge {
+  font-size: 9px;
+  color: #C07820;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+  padding-left: 12px;
+}
+
+.wolf-cal-badge {
+  display: block;
+  font-size: 9px;
+  color: #aaa;
+  padding-left: 0;
+  margin-top: 2px;
+  letter-spacing: 0.04em;
+}
+
+/* ── Wolf calendar extras ────────────────────────────────────────────────── */
+.wolf-event-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.wolf-event-meta {
+  display: flex;
+  gap: 8px;
+  margin-top: 2px;
+  padding-left: 4px;
+}
+
+.wolf-no-events {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wolf-hint {
+  font-size: 9px;
+  color: #666;
+  font-style: italic;
+  line-height: 1.4;
+}

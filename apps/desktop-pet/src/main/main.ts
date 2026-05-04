@@ -15,8 +15,10 @@ let notifyTimer: ReturnType<typeof setInterval> | null = null;
 // ── Window ────────────────────────────────────────────────────────────────
 function createWindow() {
   win = new BrowserWindow({
-    width: 680,
-    height: 440,
+    width: 220,
+    height: 500,
+    x: 0,
+    y: 580,
     transparent: true,
     frame: false,
     alwaysOnTop: true,

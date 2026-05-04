@@ -40,10 +40,12 @@ export function useDailyLog() {
 
   useEffect(() => {
     load();
-    window.moePetAPI?.onLogUpdated(p => {
-      setToday(p.today);
-      setWeek(p.week);
-    });
+    if (window.moePetAPI?.onLogUpdated) {
+      window.moePetAPI.onLogUpdated(p => {
+        setToday(p.today);
+        setWeek(p.week);
+      });
+    }
   }, [load]);
 
   const completeTask = async (title: string) => {

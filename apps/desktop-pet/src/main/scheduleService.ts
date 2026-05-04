@@ -7,8 +7,10 @@ import { getMockSchedule } from './mockSchedule';
 // Path to compiled Swift binary — lives next to the main process in production,
 // or in the swift/ folder during development
 function getBridgePath(): string {
-  const devPath  = path.join(__dirname, '../../swift/EventKitBridge');
+  // __dirname = dist/main/main/ so go up 3 levels to reach project root
+  const devPath  = path.join(__dirname, '../../../swift/EventKitBridge');
   const prodPath = path.join(process.resourcesPath ?? '', 'EventKitBridge');
+  console.log('[scheduleService] Looking for bridge at:', devPath);
   if (fs.existsSync(devPath))  return devPath;
   if (fs.existsSync(prodPath)) return prodPath;
   return '';
@@ -53,8 +55,25 @@ export function getNextEvent(payload: SchedulePayload): CalendarEvent | null {
   return upcoming[0] ?? null;
 }
 
-export function getTopReminders(payload: SchedulePayload, count = 3): Reminder[] {
+// Work-relevant Reminder lists — Wolf shows these first
+const WORK_LISTS = ['inbox', 'ams', 'counseling', 'momento', 'momento24-7',
+  'mindfulink', 'isca', 'snhu', 'antioch', 'school', 'work', 'moe'];
+
+function isWorkList(listName: string): boolean {
+  const lower = listName.toLowerCase().replace(/[^a-z0-9]/g, '');
+  return WORK_LISTS.some(w => lower.includes(w));
+}
+
+export function getTopReminders(payload: SchedulePayload, count = 5): Reminder[] {
+  const all = payload.reminders.filter((r: Reminder) => !r.completed);
+  // Work lists first, then others
+  const work  = all.filter(r => isWorkList(r.list));
+  const other = all.filter(r => !isWorkList(r.list));
+  return [...work, ...other].slice(0, count);
+}
+
+export function getWorkReminders(payload: SchedulePayload, count = 5): Reminder[] {
   return payload.reminders
-    .filter((r: Reminder) => !r.completed)
+    .filter((r: Reminder) => !r.completed && isWorkList(r.list))
     .slice(0, count);
 }

@@ -3,6 +3,7 @@ import type { SchedulePayload, CalendarEvent, Reminder } from '../../../shared/t
 
 interface ScheduleState {
   nextEvent: CalendarEvent | null;
+  allEvents: CalendarEvent[];
   topReminders: Reminder[];
   permissionStatus: 'granted' | 'denied' | 'mock' | 'loading';
   lastFetched: string | null;
@@ -14,6 +15,7 @@ function parsePayload(payload: SchedulePayload): Omit<ScheduleState, 'permission
     .sort((a, b) => a.minutesUntil - b.minutesUntil);
   return {
     nextEvent:    upcoming[0] ?? null,
+    allEvents:    payload.events,
     topReminders: payload.reminders.filter(r => !r.completed).slice(0, 3),
     lastFetched:  payload.fetchedAt,
   };
@@ -22,6 +24,7 @@ function parsePayload(payload: SchedulePayload): Omit<ScheduleState, 'permission
 export function useSchedule() {
   const [state, setState] = useState<ScheduleState>({
     nextEvent: null,
+    allEvents: [],
     topReminders: [],
     permissionStatus: 'loading',
     lastFetched: null,
@@ -35,9 +38,11 @@ export function useSchedule() {
 
   useEffect(() => {
     load();
-    window.moePetAPI?.onScheduleUpdate(payload => {
-      setState({ ...parsePayload(payload), permissionStatus: payload.permissionStatus });
-    });
+    if (window.moePetAPI?.onScheduleUpdate) {
+      window.moePetAPI.onScheduleUpdate(payload => {
+        setState({ ...parsePayload(payload), permissionStatus: payload.permissionStatus });
+      });
+    }
   }, [load]);
 
   return { ...state, refresh: load };
