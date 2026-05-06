@@ -432,3 +432,47 @@ html, body, #root {
   font-style: italic;
   line-height: 1.4;
 }
+
+/* ── Packman hourly pause overlay ───────────────────────────────────────── */
+.packman-prompt {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(28, 23, 8, 0.94);
+  border: 2px solid #FFD83D;
+  border-radius: 20px;
+  padding: 20px 26px;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 10px 36px rgba(255, 216, 61, 0.28);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  z-index: 1000;
+  animation: fadeIn 0.4s ease;
+  pointer-events: all;
+}
+
+.packman-prompt-pet {
+  width: 96px;
+  margin: 0 auto 8px;
+}
+
+.packman-prompt-pet svg {
+  width: 96px;
+  height: auto;
+}
+
+.packman-prompt p {
+  color: #FFF2A8;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: 1.6;
+  margin: 0 0 8px;
+}
+
+.packman-prompt small {
+  color: #D8BC50;
+  font-size: 10px;
+}

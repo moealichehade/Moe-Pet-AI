@@ -16,7 +16,7 @@ let notifyTimer: ReturnType<typeof setInterval> | null = null;
 function createWindow() {
   win = new BrowserWindow({
     width: 220,
-    height: 500,
+    height: 640,
     x: 0,
     y: 580,
     transparent: true,
@@ -92,11 +92,18 @@ function startNotificationLoop() {
   }, 5 * 60 * 1000);
 }
 
-// ── Hourly Owl pause ──────────────────────────────────────────────────────
+// ── Hourly Packman pause ──────────────────────────────────────────────────────
+function isPauseWindow(date: Date) {
+  const hour = date.getHours();
+  return hour >= 8 && hour < 21;
+}
+
 function startHourlyPause() {
   const ONE_HOUR = 60 * 60 * 1000;
   setInterval(() => {
-    win?.webContents.send('notify:hourly-pause');
+    if (isPauseWindow(new Date())) {
+      win?.webContents.send('notify:hourly-pause');
+    }
   }, ONE_HOUR);
 }
 

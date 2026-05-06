@@ -4,12 +4,13 @@ import Owl from './components/Owl';
 import Cat from './components/Cat';
 import Dog from './components/Dog';
 import Panda from './components/Panda';
+import Packman from './components/Packman';
 import characters from './data/characters.json';
 import './styles/app.css';
 
-type CharKey = 'wolf' | 'owl' | 'cat' | 'dog' | 'panda';
+type CharKey = 'wolf' | 'owl' | 'cat' | 'dog' | 'panda' | 'packman';
 type Mood = 'happy' | 'sleepy' | 'curious';
-const KEYS: CharKey[] = ['wolf', 'owl', 'cat', 'dog', 'panda'];
+const KEYS: CharKey[] = ['wolf', 'owl', 'cat', 'dog', 'panda', 'packman'];
 const MOODS: Mood[] = ['happy', 'sleepy', 'curious'];
 
 function randomFrom<T>(arr: T[]): T {
@@ -23,6 +24,7 @@ const PetSVG = ({ id, mood }: { id: CharKey; mood: Mood }) => {
   if (id === 'cat')   return <Cat   {...props} />;
   if (id === 'dog')   return <Dog   {...props} />;
   if (id === 'panda') return <Panda {...props} />;
+  if (id === 'packman') return <Packman {...props} />;
   return null;
 };
 
@@ -34,11 +36,32 @@ interface PauseRecord {
 }
 
 const ONE_HOUR = 60 * 60 * 1000;
+const PAUSE_START_HOUR = 8;
+const PAUSE_END_HOUR = 21;
+const PACKMAN_PAUSE_MESSAGE = 'pause stretch, breath and drink water';
+
+function isPauseWindow(date: Date) {
+  const hour = date.getHours();
+  return hour >= PAUSE_START_HOUR && hour < PAUSE_END_HOUR;
+}
+
+function getDelayToNextPause(now = new Date()) {
+  if (isPauseWindow(now)) return ONE_HOUR;
+
+  const next = new Date(now);
+  next.setHours(PAUSE_START_HOUR, 0, 0, 0);
+
+  if (now.getHours() >= PAUSE_END_HOUR || now >= next) {
+    next.setDate(next.getDate() + 1);
+  }
+
+  return next.getTime() - now.getTime();
+}
 
 export default function App() {
-  const [active,    setActive]    = useState<CharKey>('owl');
+  const [active,    setActive]    = useState<CharKey>('packman');
   const [moods,     setMoods]     = useState<Record<CharKey, Mood>>({
-    wolf: 'happy', owl: 'happy', cat: 'happy', dog: 'happy', panda: 'happy'
+    wolf: 'happy', owl: 'happy', cat: 'happy', dog: 'happy', panda: 'happy', packman: 'happy'
   });
   const [pause,     setPause]     = useState<{ msg: string; char: CharKey } | null>(null);
   const [history,   setHistory]   = useState<PauseRecord[]>([]);
@@ -48,26 +71,33 @@ export default function App() {
   const countRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const triggerPause = useCallback((charKey?: CharKey) => {
-    const char = charKey ?? randomFrom(KEYS);
+    const char = charKey ?? 'packman';
     const char_data = characters[char];
-    const msg  = randomFrom(char_data.pauses);
+    const msg = char === 'packman' ? PACKMAN_PAUSE_MESSAGE : randomFrom(char_data.pauses);
     setPause({ msg, char });
     setMoods(m => ({ ...m, [char]: randomFrom(MOODS) }));
-    setNextPause(ONE_HOUR);
+    setNextPause(getDelayToNextPause());
     return { char, msg };
   }, []);
 
   useEffect(() => {
-    timerRef.current = setInterval(() => {
-      triggerPause();
-    }, ONE_HOUR);
+    const scheduleNextPause = () => {
+      const delay = getDelayToNextPause();
+      setNextPause(delay);
+      timerRef.current = setTimeout(() => {
+        if (isPauseWindow(new Date())) triggerPause('packman');
+        scheduleNextPause();
+      }, delay);
+    };
+
+    scheduleNextPause();
 
     countRef.current = setInterval(() => {
       setNextPause(p => Math.max(0, p - 1000));
     }, 1000);
 
     return () => {
-      if (timerRef.current)  clearInterval(timerRef.current);
+      if (timerRef.current) clearTimeout(timerRef.current);
       if (countRef.current) clearInterval(countRef.current);
     };
   }, [triggerPause]);
@@ -90,8 +120,10 @@ export default function App() {
   };
 
   const fmtNext = () => {
-    const m = Math.floor(nextPause / 60000);
+    const h = Math.floor(nextPause / 3600000);
+    const m = Math.floor((nextPause % 3600000) / 60000);
     const s = Math.floor((nextPause % 60000) / 1000);
+    if (h > 0) return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     return `${m}:${s.toString().padStart(2, '0')}`;
   };
 
@@ -105,7 +137,7 @@ export default function App() {
         <div className="header-title">Moe Pet AI</div>
         <div className="header-sub">pause tracker</div>
         <div className="next-pause-badge">
-          next pause in <strong>{fmtNext()}</strong>
+          Packman pause in <strong>{fmtNext()}</strong>
         </div>
       </header>
 

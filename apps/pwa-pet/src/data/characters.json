@@ -98,5 +98,16 @@
       "Name three things you can see right now. Anchor here.",
       "The world will wait. Your breath will not. Take it now."
     ]
+  },
+  "packman": {
+    "name": "Packman",
+    "color": "#FFD83D",
+    "accent": "#FFF2A8",
+    "bg": "rgba(255,216,61,0.12)",
+    "border": "rgba(255,216,61,0.36)",
+    "trait": "Hourly pause & hydration",
+    "pauses": [
+      "pause stretch, breath and drink water"
+    ]
   }
 }
